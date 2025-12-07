@@ -10,7 +10,7 @@
 }
 
 /* Dark Mode Variant */
-@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+@custom-variant dark (&:where([data-theme=black], [data-theme=black] *));
 
 /* Global Fonts */
 html,
@@ -28,7 +28,7 @@ h6 {
 }
 
 /* Corporate Theme (Light) */
-[data-theme="corporate"] {  
+[data-theme="corporate"] {
   /* Brand Colors */
   --color-primary: #6A1B9A;
   /* Purple */

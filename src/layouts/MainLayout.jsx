@@ -1,16 +1,20 @@
-import { createBrowserRouter } from "react-router";
-import MainRoute from "../routes/MainRoute";
-import Home from "../pages/home/Home";
+import React from 'react';
+import Navbar from '../pages/shared/Navbar';
+import Footer from '../pages/shared/Footer';
+import { Outlet } from 'react-router';
 
-export const router = createBrowserRouter([
-    {
-        path: "/",
-        Component: MainRoute,
-        children: [
-            {
-                path: "/",
-                Component: Home,
-            }
-        ]
-    },
-]);
+const MainRoute = () => {
+    return (
+        <section className='min-h-screen flex flex-col'>
+            <div>
+                <Navbar />
+            </div>
+            <section className='flex-1 mt-16'>
+                <Outlet />
+            </section>
+            <Footer />
+        </section>
+    );
+};
+
+export default MainRoute;
