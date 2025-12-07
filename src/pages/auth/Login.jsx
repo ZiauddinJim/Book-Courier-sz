@@ -26,7 +26,6 @@ const Login = () => {
             <div className="flex  rounded-2xl shadow-2xl max-w-[1100px] w-full overflow-hidden relative">
 
                 {/* Close Button */}
-
                 <IoIosCloseCircle
                     onClick={() => navigate('/')} className="absolute top-4 right-4 z-50 w-8 h-8 flex items-center justify-center rounded-full
                      transition-colors duration-200" aria-label="Close" />
