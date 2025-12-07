@@ -1,0 +1,130 @@
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500&display=swap');
+
+/* Tailwind Import */
+@import "tailwindcss";
+
+/* DaisyUI Themes */
+@plugin "daisyui" {
+  themes: corporate --default, black --prefersdark;
+}
+
+/* Dark Mode Variant */
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+/* Global Fonts */
+html,
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Corporate Theme (Light) */
+[data-theme="corporate"] {  
+  /* Brand Colors */
+  --color-primary: #6A1B9A;
+  /* Purple */
+  --color-primary-content: #FFFFFF;
+  /* Text on primary */
+
+  --color-secondary: #F9A825;
+  /* Gold */
+  --color-secondary-content: #1D1D1D;
+  /* Text on secondary */
+
+  /* Accent */
+  --color-accent: #26A69A;
+  /* Teal / Aqua */
+  --color-accent-content: #FFFFFF;
+
+  /* Base / Content */
+  --color-base-100: #FFFFFF;
+  /* Main background */
+  --color-base-200: #F5F5F5;
+  /* Card / surface */
+  --color-base-300: #E0E0E0;
+  /* Deeper surface */
+  --color-base-content: #1D1D1D;
+  /* Normal text color */
+
+  /* Status Colors */
+  --color-info: #2196F3;
+  /* Info messages */
+  --color-success: #43A047;
+  /* Successful actions */
+  --color-warning: #FFB300;
+  /* Warning / pending */
+  --color-error: #E53935;
+  /* Failed / error */
+
+  /* Border Radius */
+  --radius-selector: 1rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0.5rem;
+
+  /* Sizes / Border / Effects */
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 1;
+  --noise: 0;
+}
+
+/*  Black Theme (Dark Mode) */
+[data-theme="black"] {
+  /* Brand Colors */
+  --color-primary: #6A1B9A;
+  /* Purple */
+  --color-primary-content: #FFFFFF;
+  /* Text on primary */
+
+  --color-secondary: #F9A825;
+  /* Gold */
+  --color-secondary-content: #1D1D1D;
+  /* Text on secondary */
+
+  /* Accent */
+  --color-accent: #26A69A;
+  /* Teal / Aqua */
+  --color-accent-content: #FFFFFF;
+
+  /* Base / Content */
+  --color-base-100: #121212;
+  /* Main background */
+  --color-base-200: #1E1E1E;
+  /* Card / surface */
+  --color-base-300: #2A2A2A;
+  /* Deeper surface */
+  --color-base-content: #E0E0E0;
+  /* Normal text color */
+
+  /* Status Colors */
+  --color-info: #64B5F6;
+  /* Info messages */
+  --color-success: #43A047;
+  /* Successful actions */
+  --color-warning: #FFB300;
+  /* Warning / pending */
+  --color-error: #EF5350;
+  /* Failed / error */
+
+  /* Border Radius */
+  --radius-selector: 1rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0.5rem;
+
+  /* Sizes / Border / Effects */
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 1;
+  --noise: 0;
+}
