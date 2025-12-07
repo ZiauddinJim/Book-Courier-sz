@@ -19,13 +19,15 @@ const AuthProvider = ({ children }) => {
         setLoading(true)
         return signOut(auth)
     }
-    const createUserSignInWithEmailFun = (email, password) => {
+    const registerUserFun = (email, password) => {
         setLoading(true);
         return createUserWithEmailAndPassword(auth, email, password)
     }
-    const updateProfileFun = (displayName, photoURL) => {
+
+    const updateProfileFun = (updatedUser) => {
         setLoading(true);
-        return updateProfile(auth.currentUser, { displayName, photoURL })
+        // console.log(updatedUser);
+        return updateProfile(auth.currentUser, updatedUser)
     }
     const signInFun = (email, password) => {
         setLoading(true);
@@ -43,7 +45,7 @@ const AuthProvider = ({ children }) => {
         email, setEmail,
         googleSignInFun,
         signOutFun,
-        createUserSignInWithEmailFun,
+        registerUserFun,
         updateProfileFun,
         signInFun,
         resetPasswordFun

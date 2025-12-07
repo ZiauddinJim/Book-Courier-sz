@@ -5,10 +5,14 @@ import { assets } from '../../assets/assets';
 import MyLink from '../../components/MyLink';
 import { Link } from 'react-router';
 import { BiMenu } from 'react-icons/bi';
+import useAuth from '../../hooks/useAuth';
+import toast from 'react-hot-toast';
 
 
 
 const Navbar = () => {
+    const { user, signOutFun } = useAuth()
+    // console.log(user);
     const [theme, setTheme] = useState(localStorage.getItem("theme") || "corporate");
     useEffect(() => {
         const html = document.querySelector("html");
@@ -25,6 +29,16 @@ const Navbar = () => {
             <li><MyLink to={'/books'}>Books</MyLink></li>
             <li><MyLink to={'/dashboard'}>Dashboard</MyLink></li>
         </>
+
+    const handleLogOut = () => {
+        signOutFun()
+            .then(() => {
+                toast.success("Logout successful!")
+            }).catch((error) => {
+                // An error happened.
+                toast.error("Logout failed: " + error.message);
+            });
+    }
     return (
         <div className="bg-base-100/30 shadow-lg fixed top-0 left-0 right-0 z-50 drop-shadow-xl backdrop-blur-lg">
             <Container className={'navbar my-0 py-0'}>
@@ -58,24 +72,26 @@ const Navbar = () => {
                             <IoMoonOutline size={15} aria-level="moon" />
                         </label>
                     </div>
-                    <Link to={'/login'} className='btn btn-xs btn-outline hover:btn-primary'>Login</Link>
-
-                    {/* <div className="dropdown dropdown-end">
-                        <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                            <div className="w-10 rounded-full">
-                                <img
-                                    alt="Tailwind CSS Navbar component"
-                                    src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                    {
+                        !user
+                            ? <Link to={'/login'} className='btn btn-xs btn-outline hover:btn-primary'>Login</Link>
+                            : <div className="dropdown dropdown-end">
+                                <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                                    <div className="w-10 rounded-full">
+                                        <img
+                                            alt="Tailwind CSS Navbar component"
+                                            src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                                    </div>
+                                </div>
+                                <ul
+                                    tabIndex="-1"
+                                    className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+                                    <li><Link to={'/profile'}>Profile</Link></li>
+                                    <li><Link to={'/dashboard'}>Dashboard</Link></li>
+                                    <li onClick={handleLogOut}><Link>Logout</Link></li>
+                                </ul>
                             </div>
-                        </div>
-                        <ul
-                            tabIndex="-1"
-                            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-                            <li><a>Profile</a></li>
-                            <li><a>Settings</a></li>
-                            <li><a>Logout</a></li>
-                        </ul>
-                    </div> */}
+                    }
                 </div>
             </Container>
         </div>
