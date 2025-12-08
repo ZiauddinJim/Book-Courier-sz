@@ -54,7 +54,7 @@ const Navbar = () => {
                             {links}
                         </ul>
                     </div>
-                    <Link className="btn btn-ghost text-xl"><img src={assets.logo} className='w-10 h-10' alt="" />
+                    <Link to={'/'} className="btn btn-ghost text-xl"><img src={assets.logo} className='w-10 h-10' alt="" />
                         <span className='text-primary dark:text-secondary'>Book</span> Courier</Link>
                 </div>
                 <div className="navbar-center hidden lg:flex">
@@ -81,7 +81,7 @@ const Navbar = () => {
                                         <img
                                             alt="Tailwind CSS Navbar component"
                                             src={user.photoURL}
-                                            referrerPolicy='no-referrer'/>
+                                            referrerPolicy='no-referrer' />
                                     </div>
                                 </div>
                                 <ul
