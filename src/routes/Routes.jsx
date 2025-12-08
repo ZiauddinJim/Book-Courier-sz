@@ -4,6 +4,7 @@ import Home from "../pages/home/Home";
 import Books from "../pages/books/Books";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
+import ForgetPassword from "../pages/auth/ForgetPassword";
 
 export const router = createBrowserRouter([
     {
@@ -25,6 +26,10 @@ export const router = createBrowserRouter([
             {
                 path: "/Register",
                 Component: Register,
+            },
+            {
+                path: "/forgetPassword",
+                Component: ForgetPassword,
             },
         ]
     },

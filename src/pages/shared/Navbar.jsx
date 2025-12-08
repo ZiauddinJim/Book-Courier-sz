@@ -66,7 +66,7 @@ const Navbar = () => {
                     <div className='flex mr-3'>
                         <label className="toggle toggle-xs text-base-content">
                             <input onChange={(e) => handleTheme(e.target.checked)}
-                                defaultChecked={localStorage.getItem('theme') === "dark"}
+                                defaultChecked={localStorage.getItem('theme') === "black"}
                                 type="checkbox" className="theme-controller " />
                             <IoSunnyOutline size={15} aria-level="sun" />
                             <IoMoonOutline size={15} aria-level="moon" />
@@ -80,7 +80,8 @@ const Navbar = () => {
                                     <div className="w-10 rounded-full">
                                         <img
                                             alt="Tailwind CSS Navbar component"
-                                            src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                                            src={user.photoURL}
+                                            referrerPolicy='no-referrer'/>
                                     </div>
                                 </div>
                                 <ul

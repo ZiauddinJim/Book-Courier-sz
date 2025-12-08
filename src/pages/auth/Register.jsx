@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router';
+import toast from "react-hot-toast";
 import { assets } from '../../assets/assets';
 import { IoIosCloseCircle } from 'react-icons/io';
 import { LuEye, LuEyeClosed } from 'react-icons/lu';
@@ -8,200 +9,174 @@ import { FcGoogle } from 'react-icons/fc';
 import AuthContext from '../../contexts/AuthContext';
 import axios from 'axios';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
+import { firebaseErrorMessage } from '../../utils/firebaseErrorMessage';
 
 const Register = () => {
-    const [show, setShow] = useState(false)
-    const navigate = useNavigate()
-    const location = useLocation()
-    const { registerUserFun, updateProfileFun } = useContext(AuthContext)
-    const axiosSecure = useAxiosSecure()
+    const [show, setShow] = useState(false);
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { registerUserFun, updateProfileFun, googleSignInFun, setLoading } = useContext(AuthContext);
+    const axiosSecure = useAxiosSecure();
 
     const {
         register,
         handleSubmit,
         formState: { errors },
+        reset
     } = useForm();
 
-    const onSubmit = (data) => {
-        const profileImg = data.photo[0]
-        // console.log("Form Data:", data);
-        registerUserFun(data.email, data.password)
-            .then(() => {
-                // 1. Store the image in form data
-                const formData = new FormData();
-                formData.append('image', profileImg)
+    const onSubmit = async (data) => {
+        const toastId = toast.loading("Creating account...");
+        const profileImg = data.photo[0];
 
-                // 2. send the photo to store and get the ul
-                const image_API_URI = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_API_KEY}`
+        try {
+            await registerUserFun(data.email, data.password);
 
-                axios.post(image_API_URI, formData)
-                    .then(res => {
-                        const photoUrl = res.data.data.url;
-                        // console.log(photoUrl, res);
+            const formData = new FormData();
+            formData.append("image", profileImg);
+            const image_API_URI = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_API_KEY}`;
 
-                        // firebase Profile Update
-                        const userUpdate = {
-                            displayName: data.name,
-                            photoURL: photoUrl
-                        }
-                        updateProfileFun(userUpdate)
-                            .then(() => {
-                                navigate(location.state || '/');
-                            }).catch(error => console.error(error))
+            const resImg = await axios.post(image_API_URI, formData);
+            const photoUrl = resImg.data.data.url;
 
-                        // create user in the database
-                        const userInfo = {
-                            email: data.email,
-                            displayName: data.name,
-                            photoURL: photoUrl,
-                            role: "user",
-                        }
-                        axiosSecure.post('/users', userInfo)
-                            .then(res => {
-                                if (res.data.insertedId) {
-                                    console.log('user created in the database');
-                                }
-                            })
+            await updateProfileFun({
+                displayName: data.name,
+                photoURL: photoUrl,
+            });
 
+            const userInfo = {
+                email: data.email,
+                displayName: data.name,
+                photoURL: photoUrl,
+                role: "user",
+            };
 
-                    })
-            })
+            await axiosSecure.post('/users', userInfo);
+
+            toast.success("Account created successfully!", { id: toastId });
+            reset();
+            navigate(location.state || "/");
+
+        } catch (error) {
+            const message = firebaseErrorMessage(error.code);
+            toast.error(message, { id: toastId });
+            console.error(error);
+        }
     };
+
+
+    const handleGoogleSubmit = async () => {
+        const toastId = toast.loading("Logging in...");
+
+        try {
+            const result = await googleSignInFun();
+            const gUser = result.user;
+
+            const userInfo = {
+                displayName: gUser?.displayName,
+                photoURL: gUser?.photoURL,
+                email: gUser?.email,
+                role: "user",
+            };
+
+            await axiosSecure.post("/users", userInfo)
+                .catch(() => console.log("User already exists in DB"));
+
+            toast.success("Login successful!", { id: toastId });
+            navigate(location?.state || "/");
+
+        } catch (err) {
+            const message = firebaseErrorMessage(err.code);
+            toast.error(message, { id: toastId });
+            console.error(err);
+        }
+    };
+
+
 
     return (
         <div className="min-h-screen flex items-center justify-center px-4 py-20">
-            <div className="flex  rounded-2xl shadow-2xl max-w-[1100px] w-full overflow-hidden relative">
+            <div className="flex rounded-2xl shadow-2xl max-w-[1100px] w-full overflow-hidden relative">
 
-                {/* Close Button */}
                 <IoIosCloseCircle
-                    onClick={() => navigate('/')} className="absolute top-4 right-4 z-50 w-8 h-8 flex items-center justify-center rounded-full
-                             transition-colors duration-200" aria-label="Close" />
+                    onClick={() => navigate('/')} className="absolute top-4 right-4 w-8 h-8 cursor-pointer" />
 
-                {/* Image Section */}
-                <div className="lg:flex justify-center items-center hidden w-1/2 bg-linear-to-br
-                 from-purple-50 to-orange-100 dark:from-purple-50/0 dark:to-orange-100/70 p-12">
-                    <img
-                        className="w-full max-w-[400px] h-auto" src={assets.registerImg} alt="Login illustration" />
+                <div className="lg:flex justify-center items-center hidden w-1/2 bg-linear-to-br from-purple-50 to-orange-100 dark:from-purple-50/0 dark:to-orange-100/0 p-12">
+                    <img className="w-full max-w-[400px] h-auto" src={assets.registerImg} alt="Register" />
                 </div>
 
-                {/* Form Section */}
                 <div className="w-full lg:w-1/2 p-8 md:p-12">
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <h1 className="text-3xl font-bold mb-6">Register</h1>
 
                         <div className="space-y-4">
-
-                            {/* Name */}
+                            {/* Name input */}
                             <div>
-                                <label className="block text-sm font-medium mb-1">Name</label>
-                                <input
-                                    type="text"
-                                    placeholder="Enter your full name"
-                                    className="input w-full focus:outline-none border border-primary dark:border-secondary"
-                                    {...register("name", { required: "Name is required" })}
-                                />
-                                {errors.name && (
-                                    <p className="text-sm mt-1 text-red-600">{errors.name.message}</p>
-                                )}
+                                <label className="block mb-1">Name</label>
+                                <input type="text" {...register("name", { required: "Name is required" })}
+                                    className="input w-full focus:outline-none border border-primary dark:border-secondary" placeholder="Enter your name" />
+                                {errors.name && <p className="text-red-600">{errors.name.message}</p>}
                             </div>
 
-                            {/* Email */}
+                            {/* Email input */}
                             <div>
-                                <label className="block text-sm font-medium mb-1">Email</label>
-                                <input
-                                    type="email"
-                                    placeholder="Enter your email"
-                                    className="input w-full focus:outline-none border border-primary dark:border-secondary"
-                                    {...register("email", {
-                                        required: "Email is required",
-                                        pattern: {
-                                            value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                                            message: "Enter a valid email",
-                                        },
-                                    })}
-                                />
-                                {errors.email && (
-                                    <p className="text-sm mt-1 text-red-600">
-                                        {errors.email.message}
-                                    </p>
-                                )}
+                                <label className="block mb-1">Email</label>
+                                <input type="email"
+                                    {...register("email", { required: "Email is required" })}
+                                    className="input w-full focus:outline-none border border-primary dark:border-secondary" placeholder="Enter your email" />
+                                {errors.email && <p className="text-red-600">{errors.email.message}</p>}
                             </div>
 
-                            {/* Profile Image */}
+                            {/* Profile image input */}
                             <div>
-                                <label className="block text-sm font-medium mb-1">Profile Image</label>
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    className="file-input w-full focus:outline-none border border-primary dark:border-secondary"
+                                <label className="block mb-1">Profile Image</label>
+                                <input type="file" accept="image/*"
                                     {...register("photo", { required: "Image is required" })}
-                                />
-                                {errors.photo && (
-                                    <p className="text-sm mt-1 text-red-600">{errors.photo.message}</p>
-                                )}
+                                    className="file-input w-full focus:outline-none border border-primary dark:border-secondary" />
+                                {errors.photo && <p className="text-red-600">{errors.photo.message}</p>}
                             </div>
-
-                            {/* Password */}
+                            {/* password input */}
                             <div className="relative">
-                                <label className="block text-sm font-medium mb-1">Password</label>
+                                <label className="block mb-1">Password</label>
                                 <input
                                     type={show ? "text" : "password"}
-                                    placeholder="Enter your password"
-                                    className="input w-full pr-12 focus:outline-none border border-primary dark:border-secondary"
+                                    placeholder="Password"
                                     {...register("password", {
                                         required: "Password is required",
                                         pattern: {
                                             value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/,
-                                            message:
-                                                "Min 6 chars, include uppercase, lowercase & number",
+                                            message: "Min 6 chars, include uppercase, lowercase & number",
                                         },
                                     })}
+                                    className="input w-full pr-10 focus:outline-none border border-primary dark:border-secondary"
                                 />
-                                <span
-                                    onClick={() => setShow(!show)}
-                                    className="absolute right-3 top-10 cursor-pointer"
-                                >
-                                    {show ? <LuEye size={20} /> : <LuEyeClosed size={20} />}
+                                <span onClick={() => setShow(!show)} className="absolute right-3 top-9 cursor-pointer">
+                                    {show ? <LuEye /> : <LuEyeClosed />}
                                 </span>
-
-                                {errors.password && (
-                                    <p className="text-sm mt-1 text-red-600">
-                                        {errors.password.message}
-                                    </p>
-                                )}
+                                {errors.password && <p className="text-red-600">{errors.password.message}</p>}
                             </div>
 
-                            {/* Submit Button */}
-                            <button
-                                type="submit"
-                                className="btn w-full border-0 shadow-lg btn-primary dark:btn-secondary"
-                            >
+                            <button type="submit" className="btn w-full btn-primary dark:btn-secondary">
                                 Register
                             </button>
 
-                            {/* OR */}
                             <div className="divider">OR</div>
 
-                            {/* Google */}
-                            <button type="button" className="btn w-full btn-primary dark:btn-secondary">
-                                <FcGoogle />
-                                Sign up with Google
+                            <button
+                                type="button"
+                                onClick={handleGoogleSubmit}
+                                className="btn w-full btn-primary dark:btn-secondary"
+                            >
+                                <FcGoogle /> Sign up with Google
                             </button>
                         </div>
 
-                        {/* Login Link */}
                         <p className="text-center mt-6 text-sm">
-                            Already have an account?{" "}
-                            <Link
-                                className="font-semibold hover:underline text-primary dark:text-secondary"
-                                to="/login"
-                            >
-                                Login
-                            </Link>
+                            Already have an account? <Link to="/login" className="font-semibold hover:underline text-primary dark:text-secondary">Login</Link>
                         </p>
                     </form>
-
                 </div>
+
             </div>
         </div>
     );

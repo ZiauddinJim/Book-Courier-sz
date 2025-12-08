@@ -5,20 +5,71 @@ import { Link, useNavigate } from 'react-router';
 import { assets } from '../../assets/assets';
 import { IoIosCloseCircle } from 'react-icons/io';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
+import { firebaseErrorMessage } from '../../utils/firebaseErrorMessage';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
+import useAuth from '../../hooks/useAuth';
 
 const Login = () => {
     const [show, setShow] = useState(false)
     const navigate = useNavigate()
+    const axiosSecure = useAxiosSecure()
+    const { signInFun, googleSignInFun, setEmail } = useAuth()
+    const { register, handleSubmit, formState: { errors }, getValues } = useForm();
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm();
 
-    const onSubmit = (data) => {
-        console.log("Form Data:", data);
-        // handleLogin(data.email, data.password);
+    const onSubmit = async (data) => {
+        const toastId = toast.loading("Logging in...");
+
+        try {
+            const result = await signInFun(data.email, data.password);
+            const user = result.user;
+
+            toast.success("Login successful!", { id: toastId });
+
+            // Redirect
+            navigate(location?.state || "/");
+
+        } catch (err) {
+            const message = firebaseErrorMessage(err.code);
+            toast.error(message, { id: toastId });
+            console.error(err);
+        }
+    };
+
+    const handleForgetPassword = () => {
+        // SN: getValues useForm hooks suggest data
+        const emailValue = getValues("email")
+        setEmail(emailValue);
+        navigate("/forgetPassword");
+    }
+
+
+    const handleGoogleSubmit = async () => {
+        const toastId = toast.loading("Logging in...");
+
+        try {
+            const result = await googleSignInFun();
+            const gUser = result.user;
+
+            const userInfo = {
+                displayName: gUser?.displayName,
+                photoURL: gUser?.photoURL,
+                email: gUser?.email,
+                role: "user",
+            };
+
+            await axiosSecure.post("/users", userInfo)
+                .catch(() => console.log("User already exists in DB"));
+
+            toast.success("Login successful!", { id: toastId });
+            navigate(location?.state || "/");
+
+        } catch (err) {
+            const message = firebaseErrorMessage(err.code);
+            toast.error(message, { id: toastId });
+            console.error(err);
+        }
     };
 
     return (
@@ -49,10 +100,8 @@ const Login = () => {
                                     Email
                                 </label>
                                 <input
-                                    type="email"
-                                    placeholder="Enter your email"
+                                    type="email" placeholder="Enter your email"
                                     className="input w-full focus:outline-none border border-primary dark:border-secondary"
-
                                     {...register("email", {
                                         required: "Email is required",
                                         pattern: {
@@ -72,8 +121,7 @@ const Login = () => {
                                     Password
                                 </label>
                                 <input
-                                    type={show ? "text" : "password"}
-                                    placeholder="Enter your password"
+                                    type={show ? "text" : "password"} placeholder="Enter your password"
                                     className="input w-full pr-12 focus:outline-none border border-primary dark:border-secondary"
                                     {...register("password", {
                                         required: "Password is required",
@@ -102,10 +150,12 @@ const Login = () => {
                             <div className="text-right">
                                 <button
                                     type="button"
-                                    className="text-sm font-medium text-primary dark:text-secondary hover:underline"
+                                    onClick={handleForgetPassword}
+                                    className="text-sm font-medium text-primary cursor-pointer dark:text-secondary hover:underline"
                                 >
                                     Forgot password?
                                 </button>
+
                             </div>
 
                             {/* Submit */}
@@ -117,7 +167,7 @@ const Login = () => {
                             <div className="divider">OR</div>
 
                             {/* Google */}
-                            <button type="button" className="btn w-full btn-primary dark:btn-secondary">
+                            <button type="button" onClick={handleGoogleSubmit} className="btn w-full btn-primary dark:btn-secondary">
                                 <FcGoogle />
                                 Login with Google
                             </button>
