@@ -40,7 +40,7 @@ const Navbar = () => {
             });
     }
     return (
-        <div className="bg-base-100/30 shadow-lg fixed top-0 left-0 right-0 z-50 drop-shadow-xl backdrop-blur-lg">
+        <div className="bg-base-100/30 shadow-lg fixed top-0 left-0 right-0 z-999 drop-shadow-xl backdrop-blur-lg">
             <Container className={'navbar my-0 py-0'}>
                 <div className="navbar-start">
                     <div className="dropdown">
