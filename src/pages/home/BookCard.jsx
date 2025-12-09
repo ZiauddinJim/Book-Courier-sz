@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router";
 import { FaHeart, FaStar } from "react-icons/fa";
+import { TbCurrencyTaka  } from "react-icons/tb";
 
 const BookCard = ({ book }) => {
     return (
@@ -41,7 +42,7 @@ const BookCard = ({ book }) => {
                 </div>
 
                 {/* Price */}
-                <p className="font-bold text-primary">${book.price}</p>
+                <p className="font-bold text-primary flex justify-center items-center gap-1"><TbCurrencyTaka  /> {book.price}</p>
 
                 {/* Quick View */}
                 <div className="card-actions justify-center mt-2 opacity-0 group-hover:opacity-100 translate-y-3 group-hover:translate-y-0 transition duration-300">
