@@ -14,6 +14,7 @@ import MyBooks from "../pages/dashboard/librarian/MyBooks";
 import LibrarianOrders from "../pages/dashboard/librarian/LibrarianOrders";
 import AllUsers from "../pages/dashboard/admin/AllUsers";
 import ManageBooks from "../pages/dashboard/admin/ManageBooks";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
     {
@@ -32,7 +33,7 @@ export const router = createBrowserRouter([
     },
     {
         path: "/dashboard",
-        Component: DashboardLayout,
+        element: <PrivateRoute> <DashboardLayout /></PrivateRoute>,
         children: [
             // User Routes
             { path: "orders", Component: MyOrders },

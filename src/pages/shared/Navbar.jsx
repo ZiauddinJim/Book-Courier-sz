@@ -16,7 +16,7 @@ const Navbar = () => {
         <>
             <li><MyLink to={'/'}>Home</MyLink></li>
             <li><MyLink to={'/books'}>Books</MyLink></li>
-            <li><MyLink to={'/dashboard'}>Dashboard</MyLink></li>
+            <li><MyLink to={'/dashboard/profile'}>Dashboard</MyLink></li>
         </>
 
     const handleLogOut = () => {
@@ -43,7 +43,7 @@ const Navbar = () => {
                             {links}
                         </ul>
                     </div>
-                    <Link to={'/'} className="btn btn-ghost text-xl"><img src={assets.logo} className='w-10 h-10' alt="" />
+                    <Link to={'/'} className="btn btn-ghost text-xl"><img src={assets.logo} className='w-10 h-10' alt="logo" />
                         <span className='text-primary dark:text-secondary'>Book</span> Courier</Link>
                 </div>
                 <div className="navbar-center hidden lg:flex">
@@ -60,7 +60,7 @@ const Navbar = () => {
                                 <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                                     <div className="w-10 rounded-full">
                                         <img
-                                            alt="Tailwind CSS Navbar component"
+                                            alt="Profile picture"
                                             src={user.photoURL}
                                             referrerPolicy='no-referrer' />
                                     </div>

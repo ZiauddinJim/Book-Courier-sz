@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router";
 import { FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
@@ -28,7 +27,7 @@ const Footer = () => {
                     <ul className="space-y-2 text-sm">
                         <li><Link to="/" className="hover:underline">Home</Link></li>
                         <li><Link to="/books" className="hover:underline">Books</Link></li>
-                        <li><Link to="/dashboard" className="hover:underline">Dashboard</Link></li>
+                        <li><Link to="/dashboard/profile" className="hover:underline">Dashboard</Link></li>
                     </ul>
                 </div>
 

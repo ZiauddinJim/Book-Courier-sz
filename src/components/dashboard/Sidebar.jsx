@@ -15,11 +15,23 @@ import {
 import { assets } from '../../assets/assets';
 import ThemeControl from '../ThemeControl';
 import useRole from '../../hooks/useRole';
+import useAuth from '../../hooks/useAuth';
+import toast from 'react-hot-toast';
 
 const Sidebar = () => {
     const { role } = useRole();
     const [isCollapsed, setIsCollapsed] = useState(true);
+    const { signOutFun } = useAuth()
 
+    const handleLogOut = () => {
+        signOutFun()
+            .then(() => {
+                toast.success("Logout successful!")
+            }).catch((error) => {
+                // An error happened.
+                toast.error("Logout failed: " + error.message);
+            });
+    }
     const links = [
         {
             role: 'user',
@@ -100,7 +112,7 @@ const Sidebar = () => {
                     <ThemeControl />
                 </div>
 
-                <button
+                <button onClick={handleLogOut}
                     className={`btn btn-error btn-outline flex items-center gap-2 ${isCollapsed ? 'btn-square px-0 tooltip tooltip-right' : 'w-full'
                         }`} data-tip="Logout"
                 >
