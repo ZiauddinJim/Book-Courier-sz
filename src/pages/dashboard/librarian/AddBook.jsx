@@ -7,7 +7,7 @@ import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import useAuth from '../../../hooks/useAuth';
 
 const AddBook = () => {
-    const { register, handleSubmit, reset} = useForm();
+    const { register, handleSubmit, reset } = useForm();
     const axiosSecure = useAxiosSecure();
     const { user } = useAuth();
 
@@ -93,19 +93,6 @@ const AddBook = () => {
                         type="number"
                         className="input input-bordered"
                         {...register("price", { required: true, min: 0 })}
-                    />
-                </div>
-
-                {/* Rating */}
-                <div className="form-control">
-                    <label className="label"><span className="label-text">Rating (0–5)</span></label>
-                    <input
-                        type="number"
-                        min={0}
-                        max={5}
-                        step={0.1}
-                        className="input input-bordered"
-                        {...register("rating", { required: true })}
                     />
                 </div>
 

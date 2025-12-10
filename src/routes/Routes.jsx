@@ -15,6 +15,7 @@ import LibrarianOrders from "../pages/dashboard/librarian/LibrarianOrders";
 import AllUsers from "../pages/dashboard/admin/AllUsers";
 import ManageBooks from "../pages/dashboard/admin/ManageBooks";
 import PrivateRoute from "./PrivateRoute";
+import EditBook from "../pages/dashboard/librarian/EditBook";
 
 export const router = createBrowserRouter([
     {
@@ -44,6 +45,7 @@ export const router = createBrowserRouter([
             { path: "add-book", Component: AddBook },
             { path: "my-books", Component: MyBooks },
             { path: "librarian-orders", Component: LibrarianOrders },
+            { path: "editBook/:id", Component: EditBook },
 
             // Admin Routes
             { path: "all-users", Component: AllUsers },
