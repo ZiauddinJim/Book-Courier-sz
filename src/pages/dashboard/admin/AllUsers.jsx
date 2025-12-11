@@ -87,7 +87,7 @@ const AllUsers = () => {
                                     {user.role !== 'librarian' && user.role !== 'admin' && (
                                         <button
                                             onClick={() => changeRole(user, 'librarian')}
-                                            className="btn btn-xs btn-outline btn-secondary"
+                                            className="btn btn-xs btn-outline btn-secondary text-black dark:text-secondary"
                                             title="Make Librarian"
                                         >
                                             <UserPlus size={14} /> Make Librarian
@@ -96,7 +96,7 @@ const AllUsers = () => {
                                     {user.role !== 'admin' && (
                                         <button
                                             onClick={() => changeRole(user, 'admin')}
-                                            className="btn btn-xs btn-outline btn-primary"
+                                            className="btn btn-xs btn-outline btn-primary dark:text-white"
                                             title="Make Admin">
                                                 
                                             <ShieldPlus size={14} /> Make Admin

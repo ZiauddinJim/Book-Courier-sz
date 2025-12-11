@@ -29,10 +29,9 @@ const Books = () => {
         }
     });
 
-    if (isLoading) return <Spinner />;
+
 
     // console.log(books);
-
     return (
         <div className="py-10">
             <div className="container mx-auto px-4">
@@ -58,6 +57,7 @@ const Books = () => {
 
                     {/* Filters */}
                     <div className="md:w-72 bg-base-200 p-5 rounded-lg shadow-sm h-fit">
+                        <p className="font-semibold">Total Books: {books.length}</p>
 
                         {/* Search */}
                         <label className="font-medium">Search</label>
@@ -90,7 +90,6 @@ const Books = () => {
                         <div className="mb-6">
                             <label className="font-medium">Price (BDT): Up to ৳{price}</label>
 
-                            {/* Increase Price Button */}
                             <button
                                 className="btn btn-xs btn-outline btn-primary w-full mt-2"
                                 onClick={() => setPrice(prev => Math.min(prev + 200, 5000))}
@@ -98,7 +97,6 @@ const Books = () => {
                                 Increase Limit +200
                             </button>
 
-                            {/* Range Slider */}
                             <input
                                 type="range"
                                 min="500"
@@ -108,7 +106,6 @@ const Books = () => {
                                 className="range range-primary my-2"
                             />
 
-                            {/* Decrease Price Button */}
                             <button
                                 className="btn btn-xs btn-outline btn-secondary w-full"
                                 onClick={() => setPrice(prev => Math.max(prev - 200, 200))}
@@ -116,25 +113,33 @@ const Books = () => {
                                 Decrease Limit -200
                             </button>
                         </div>
-
                     </div>
 
                     {/* Books Grid */}
-                    {books.length ?
-                        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-                            {books.map(book => (
-                                <BookCard key={book._id} book={book} />
-                            ))}
-                        </div>
-                        :
-                        <p className="text-center text-gray-500">No books found</p>
-                    }
+                    <div className="w-full">
 
+                        {isLoading ? (
+                            <Spinner />
+                        ) : (
+                            <>
+                                {books.length ? (
+                                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+                                        {books.map(book => (
+                                            <BookCard key={book._id} book={book} />
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <p className="text-center text-gray-500">No books found</p>
+                                )}
+                            </>
+                        )}
+                    </div>
 
                 </div>
             </div>
         </div>
     );
+
 };
 
 export default Books;

@@ -20,6 +20,8 @@ import PrivateRoute from "./PrivateRoute";
 import EditBook from "../pages/dashboard/librarian/EditBook";
 import AdminRoute from "./AdminRoute";
 import LibrarianRoute from "./LibrarianRoute";
+import PaymentSuccess from "../pages/dashboard/user/payment/PaymentSuccess";
+import PaymentCancel from "../pages/dashboard/user/payment/PaymentCancel";
 
 export const router = createBrowserRouter([
     {
@@ -43,6 +45,8 @@ export const router = createBrowserRouter([
         children: [
             // User Routes
             { path: "orders", Component: MyOrders },
+            { path: "payment-success", Component: PaymentSuccess },
+            { path: "payment-cancelled", Component: PaymentCancel },
             { path: "profile", Component: MyProfile },
             { path: "invoices", Component: Invoices },
             { path: "wishlist", Component: MyWishlist },

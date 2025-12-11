@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import useAuth from '../hooks/useAuth';
 import useAxios from '../hooks/useAxios';
 import toast from 'react-hot-toast';
+import useAxiosSecure from '../hooks/useAxiosSecure';
 
 const OrderModal = ({ book, isOpen, onClose }) => {
     const { user } = useAuth();
-    const axios = useAxios();
     const [phone, setPhone] = useState('');
     const [address, setAddress] = useState('');
     const [loading, setLoading] = useState(false);
+    const axiosSecure = useAxiosSecure()
 
     if (!isOpen) return null;
 
@@ -36,7 +37,7 @@ const OrderModal = ({ book, isOpen, onClose }) => {
 
         try {
             setLoading(true);
-            const res = await axios.post('/orders', orderData);
+            const res = await axiosSecure.post('/orders', orderData);
             if (res.data.insertedId) {
                 toast.success('Order placed successfully! Please pay to confirm.');
                 onClose();

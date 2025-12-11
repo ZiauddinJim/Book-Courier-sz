@@ -1,24 +1,24 @@
 import React from 'react';
-import { CreditCard, XCircle } from 'lucide-react';
+import { CreditCard } from 'lucide-react';
 import toast from 'react-hot-toast';
 import useAuth from '../../../hooks/useAuth';
-import useAxios from '../../../hooks/useAxios';
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '../../../components/Spinner';
 import { TbCurrencyTaka } from 'react-icons/tb';
 import Swal from 'sweetalert2';
 import Loading from '../../../components/Loading';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
 
 const MyOrders = () => {
     const { user } = useAuth();
-    const axios = useAxios();
+    const axiosSecure = useAxiosSecure();
 
     // Fetch Orders
     const { data: orders = [], isLoading, refetch } = useQuery({
         queryKey: ['orders', user?.email],
         enabled: !!user?.email,
         queryFn: async () => {
-            const res = await axios.get(`/orders/${user?.email}`);
+            const res = await axiosSecure.get(`/orders/${user?.email}`);
             return res.data;
         }
     });
@@ -36,7 +36,7 @@ const MyOrders = () => {
             if (result.isConfirmed) {
                 try {
                     // Send status 'cancelled'
-                    const res = await axios.patch(`/orders/${id}`, { status: 'cancelled' });
+                    const res = await axiosSecure.patch(`/orders/${id}`, { status: 'cancelled' });
                     if (res.data.modifiedCount > 0 || res.data.success) {
                         refetch();
                         Swal.fire({
@@ -55,7 +55,11 @@ const MyOrders = () => {
         });
     };
 
-
+    const handlePayment = async (order) => {
+        // console.log(order);
+        const response = await axiosSecure.post('/payment-checkout-session', order)
+        window.location.assign(response.data.url);
+    }
     if (isLoading) return <Loading />;
 
     return (
@@ -66,7 +70,7 @@ const MyOrders = () => {
                     {/* head */}
                     <thead className="bg-base-200">
                         <tr>
-                            <th>#</th>
+                            <th>No</th>
                             <th>Book Details</th>
                             <th>Order Date</th>
                             <th>Status</th>
@@ -107,7 +111,7 @@ const MyOrders = () => {
                                                 <button
                                                     className="btn btn-xs btn-success text-white"
                                                     title="Pay Now"
-                                                    onClick={() => toast.success("Payment gateway integration required")}
+                                                    onClick={() => handlePayment(order)}
                                                 >
                                                     <CreditCard size={14} /> Pay
                                                 </button>

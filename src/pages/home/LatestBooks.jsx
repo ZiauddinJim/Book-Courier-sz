@@ -19,7 +19,7 @@ const LatestBooks = () => {
             return res.data;
         }
     });
-    console.log(books);
+    // console.log(books);
 
     if (isLoading) return <div className="my-5"><Spinner /></div>;
 
