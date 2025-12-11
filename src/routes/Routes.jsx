@@ -3,6 +3,7 @@ import MainLayout from "../layouts/MainLayout";
 import DashboardLayout from "../layouts/DashboardLayout";
 import Home from "../pages/home/Home";
 import Books from "../pages/books/Books";
+import BookDetails from "../pages/books/BookDetails";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 import ForgetPassword from "../pages/auth/ForgetPassword";
@@ -25,6 +26,7 @@ export const router = createBrowserRouter([
             // Main Routes
             { path: "/", Component: Home, },
             { path: "/books", Component: Books, },
+            { path: "/books/:id", Component: BookDetails, },
 
             // Auth Routes
             { path: "/login", Component: Login, },

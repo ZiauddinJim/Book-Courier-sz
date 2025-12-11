@@ -16,7 +16,7 @@ const AddBook = () => {
         data.librarianName = user?.displayName;
         data.librarianEmail = user?.email;
         data.createdAt = new Date();
-
+        data.price = Number(data.price)
         try {
             const res = await axiosSecure.post("/books", data);
 
