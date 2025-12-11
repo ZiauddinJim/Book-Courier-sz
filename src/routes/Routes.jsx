@@ -19,6 +19,7 @@ import ManageBooks from "../pages/dashboard/admin/ManageBooks";
 import PrivateRoute from "./PrivateRoute";
 import EditBook from "../pages/dashboard/librarian/EditBook";
 import AdminRoute from "./AdminRoute";
+import LibrarianRoute from "./LibrarianRoute";
 
 export const router = createBrowserRouter([
     {
@@ -47,10 +48,10 @@ export const router = createBrowserRouter([
             { path: "wishlist", Component: MyWishlist },
 
             // Librarian Routes
-            { path: "add-book", Component: AddBook },
-            { path: "my-books", Component: MyBooks },
-            { path: "librarian-orders", Component: LibrarianOrders },
-            { path: "editBook/:id", Component: EditBook },
+            { path: "add-book", element: <LibrarianRoute><AddBook /></LibrarianRoute> },
+            { path: "my-books", element: <LibrarianRoute><MyBooks /></LibrarianRoute> },
+            { path: "librarian-orders", element: <LibrarianRoute><LibrarianOrders /></LibrarianRoute> },
+            { path: "editBook/:id", element: <LibrarianRoute><EditBook /></LibrarianRoute> },
 
             // Admin Routes
             { path: "all-users", element: <AdminRoute><AllUsers /></AdminRoute> },

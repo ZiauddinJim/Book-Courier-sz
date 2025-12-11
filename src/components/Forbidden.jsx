@@ -16,11 +16,11 @@ const Forbidden = () => {
             <h1 className="text-3xl font-bold text-red-500">
                 You Are Forbidden to Access This Page
             </h1>
-            <p className="text-lg text-gray-600 mt-2">
+            <p className="text-lg text-gray-600 dark:text-gray-400 mt-2">
                 Please contact the administrator if you believe this is an error.
             </p>
             <div className="my-3 space-x-3">
-                <Link to="/" className="btn btn-primary text-black">
+                <Link to="/" className="btn btn-primary">
                     {" "}
                     Go to Home
                 </Link>
