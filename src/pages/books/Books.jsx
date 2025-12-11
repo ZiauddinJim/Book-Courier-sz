@@ -2,38 +2,38 @@ import React, { useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { TbCurrencyTaka } from "react-icons/tb";
 import { Link } from "react-router";
-
 import BookCard from "../home/BookCard";
-
-const categories = [
-    "Fiction", "Romance", "Kids", "History", "Biography",
-    "Fantasy", "Horror", "Family", "Adventure",
-    "Mystery & Thriller", "Poetry", "Self-Help",
-    "Comics & Graphic Novels", "Science Fiction", "Classic"
-];
-
-const books = [
-    { id: 1, title: "The Great Gatsby", author: "F. Scott Fitzgerald", image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=800&q=80", category: "Classic", rating: 4.5, price: 1760 },
-    { id: 2, title: "To Kill a Mockingbird", author: "Harper Lee", image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=800&q=80", category: "Classic", rating: 4.8, price: 2090 },
-    { id: 3, title: "1984", author: "George Orwell", image: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=800&q=80", category: "Dystopian", rating: 4.6, price: 1815 },
-    { id: 4, title: "Pride and Prejudice", author: "Jane Austen", image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=800&q=80", category: "Romance", rating: 4.7, price: 1650 },
-    { id: 5, title: "The Catcher in the Rye", author: "J.D. Salinger", image: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=800&q=80", category: "Fiction", rating: 4.3, price: 1980 },
-    { id: 6, title: "Moby Dick", author: "Herman Melville", image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=800&q=80", category: "Adventure", rating: 4.4, price: 2200 },
-    { id: 7, title: "War and Peace", author: "Leo Tolstoy", image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=800&q=80", category: "Historical", rating: 4.9, price: 2740 },
-    { id: 8, title: "The Odyssey", author: "Homer", image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=800&q=80", category: "Epic", rating: 4.5, price: 1870 }
-];
+import { categories } from "../../assets/data/categories";
+import { useQuery } from '@tanstack/react-query';
+import Loading from "../../components/Loading";
+import useAxios from "../../hooks/useAxios";
 
 const Books = () => {
     const [search, setSearch] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("");
-    const [price, setPrice] = useState(3000);
+    const [price, setPrice] = useState(10000);
+    const axios = useAxios()
 
-    const filteredBooks = books.filter(book =>
-        (book.title.toLowerCase().includes(search.toLowerCase()) ||
-            book.author.toLowerCase().includes(search.toLowerCase())) &&
-        (selectedCategory ? book.category === selectedCategory : true) &&
-        book.price <= price
-    );
+    const { data: books = [], } = useQuery({
+        queryKey: ["books", search, selectedCategory, price],
+        queryFn: async () => {
+            try {
+                console.log({ search, selectedCategory, price });
+                const res = await axios.get("/books", { params: { search, category: selectedCategory, maxPrice: price, status: "published" } });
+                // console.log("Books response:", res.data);
+                return res.data;
+            } catch (error) {
+                console.error("Error fetching books:", error);
+                throw error;
+            }
+        }
+    });
+
+    // // Add loading and error states to your JSX
+    // if (isLoading) return <Loading />;
+    // if (error) return <div>Error: {error.message}</div>;
+
+    console.log(books);
 
     return (
         <div className="py-10">
@@ -95,9 +95,9 @@ const Books = () => {
                             {/* Increase Price Button */}
                             <button
                                 className="btn btn-xs btn-outline btn-primary w-full mt-2"
-                                onClick={() => setPrice(prev => Math.min(prev + 500, 5000))}
+                                onClick={() => setPrice(prev => Math.min(prev + 200, 5000))}
                             >
-                                Increase Limit +500
+                                Increase Limit +200
                             </button>
 
                             {/* Range Slider */}
@@ -113,26 +113,25 @@ const Books = () => {
                             {/* Decrease Price Button */}
                             <button
                                 className="btn btn-xs btn-outline btn-secondary w-full"
-                                onClick={() => setPrice(prev => Math.max(prev - 500, 500))}
+                                onClick={() => setPrice(prev => Math.max(prev - 200, 200))}
                             >
-                                Decrease Limit -500
+                                Decrease Limit -200
                             </button>
                         </div>
 
                     </div>
 
                     {/* Books Grid */}
-                    <div className="w-full">
-                        {filteredBooks.length ?
-                            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-                                {filteredBooks.map(book => (
-                                    <BookCard key={book.id} book={book} />
-                                ))}
-                            </div>
-                            :
-                            <p className="text-center text-gray-500">No books found</p>
-                        }
-                    </div>
+                    {books.length ?
+                        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+                            {books.map(book => (
+                                <BookCard key={book._id} book={book} />
+                            ))}
+                        </div>
+                        :
+                        <p className="text-center text-gray-500">No books found</p>
+                    }
+
 
                 </div>
             </div>
