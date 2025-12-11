@@ -4,20 +4,25 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/css";
 import BookCard from "./BookCard";
-
-const books = [
-    { id: 1, title: "The Great Gatsby", author: "F. Scott Fitzgerald", image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", category: "Classic", rating: 4.5, price: 1760 },
-    { id: 2, title: "To Kill a Mockingbird", author: "Harper Lee", image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", category: "Classic", rating: 4.8, price: 2090 },
-    { id: 3, title: "1984", author: "George Orwell", image: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", category: "Dystopian", rating: 4.6, price: 1815 },
-    { id: 4, title: "Pride and Prejudice", author: "Jane Austen", image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", category: "Romance", rating: 4.7, price: 1650 },
-    { id: 5, title: "The Catcher in the Rye", author: "J.D. Salinger", image: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", category: "Fiction", rating: 4.3, price: 1980 },
-    { id: 6, title: "Moby Dick", author: "Herman Melville", image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", category: "Adventure", rating: 4.4, price: 2200 },
-    { id: 7, title: "War and Peace", author: "Leo Tolstoy", image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", category: "Historical", rating: 4.9, price: 2740 },
-    { id: 8, title: "The Odyssey", author: "Homer", image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", category: "Epic", rating: 4.5, price: 1870 }
-];
-
+import useAxios from "../../hooks/useAxios";
+import { useQuery } from "@tanstack/react-query";
+import Loading from "../../components/Loading";
+import Spinner from "../../components/Spinner";
 
 const LatestBooks = () => {
+    const axios = useAxios();
+
+    const { data: books = [], isLoading } = useQuery({
+        queryKey: ['latest-books'],
+        queryFn: async () => {
+            const res = await axios.get('/latest-books');
+            return res.data;
+        }
+    });
+    console.log(books);
+
+    if (isLoading) return <div className="my-5"><Spinner /></div>;
+
     return (
         <div className="py-16 bg-base-100">
             <div className="container mx-auto px-4">
@@ -48,8 +53,8 @@ const LatestBooks = () => {
                         1024: { slidesPerView: 6 }
                     }}
                 >
-                    {books.map((book) => (
-                        <SwiperSlide key={book.id}>
+                    {books.slice(0, 10).map((book) => (
+                        <SwiperSlide key={book._id}>
                             <BookCard book={book} />
                         </SwiperSlide>
                     ))}

@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import Spinner from '../../../components/Spinner';
 import { TbCurrencyTaka } from 'react-icons/tb';
 import Swal from 'sweetalert2';
+import Loading from '../../../components/Loading';
 
 const MyOrders = () => {
     const { user } = useAuth();
@@ -55,7 +56,7 @@ const MyOrders = () => {
     };
 
 
-    if (isLoading) return <Spinner />;
+    if (isLoading) return <Loading />;
 
     return (
         <div className="bg-base-100 p-6 rounded-xl shadow-sm border border-base-200">

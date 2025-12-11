@@ -24,6 +24,11 @@ const BookCard = ({ book }) => {
                     by {book.author}
                 </p>
 
+                {/* Category */}
+                <div className="flex justify-center">
+                    <p className="badge badge-soft badge-primary text-xs text-center">{book.category}</p>
+                </div>
+
                 {/* Price */}
                 <p className="font-bold text-primary flex justify-center items-center gap-1"><TbCurrencyTaka /> {book.price}</p>
 
