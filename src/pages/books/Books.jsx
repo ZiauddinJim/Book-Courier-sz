@@ -31,7 +31,7 @@ const Books = () => {
 
     if (isLoading) return <Spinner />;
 
-    console.log(books);
+    // console.log(books);
 
     return (
         <div className="py-10">
