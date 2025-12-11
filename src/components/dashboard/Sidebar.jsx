@@ -5,12 +5,12 @@ import {
     ShoppingCart,
     FileText,
     Users,
-    Settings,
     PlusCircle,
     Package,
     PanelLeftClose,
     PanelLeftOpen,
-    LogOut
+    LogOut,
+    User
 } from 'lucide-react';
 import { assets } from '../../assets/assets';
 import ThemeControl from '../ThemeControl';
@@ -37,7 +37,7 @@ const Sidebar = () => {
         {
             role: 'user',
             items: [
-                { to: '/dashboard/profile', label: 'My Profile', icon: <Users size={20} /> },
+                { to: '/dashboard/profile', label: 'My Profile', icon: <User size={20} /> },
                 { to: '/dashboard/orders', label: 'My Orders', icon: <ShoppingCart size={20} /> },
                 { to: '/dashboard/invoices', label: 'Invoices', icon: <FileText size={20} /> },
                 { to: '/dashboard/wishlist', label: 'My Wishlist', icon: <FaHeart size={20} /> },
@@ -46,7 +46,7 @@ const Sidebar = () => {
         {
             role: 'librarian',
             items: [
-                { to: '/dashboard/profile', label: 'My Profile', icon: <Settings size={20} /> },
+                { to: '/dashboard/profile', label: 'My Profile', icon: <User size={20} /> },
                 { to: '/dashboard/add-book', label: 'Add Book', icon: <PlusCircle size={20} /> },
                 { to: '/dashboard/my-books', label: 'My Books', icon: <Book size={20} /> },
                 { to: '/dashboard/librarian-orders', label: 'Orders', icon: <Package size={20} /> },
@@ -55,7 +55,7 @@ const Sidebar = () => {
         {
             role: 'admin',
             items: [
-                { to: '/dashboard/profile', label: 'My Profile', icon: <Settings size={20} /> },
+                { to: '/dashboard/profile', label: 'My Profile', icon: <User size={20} /> },
                 { to: '/dashboard/all-users', label: 'All Users', icon: <Users size={20} /> },
                 { to: '/dashboard/manage-books', label: 'Manage Books', icon: <Book size={20} /> },
             ]
