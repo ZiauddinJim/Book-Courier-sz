@@ -18,6 +18,7 @@ import AllUsers from "../pages/dashboard/admin/AllUsers";
 import ManageBooks from "../pages/dashboard/admin/ManageBooks";
 import PrivateRoute from "./PrivateRoute";
 import EditBook from "../pages/dashboard/librarian/EditBook";
+import AdminRoute from "./AdminRoute";
 
 export const router = createBrowserRouter([
     {
@@ -52,8 +53,8 @@ export const router = createBrowserRouter([
             { path: "editBook/:id", Component: EditBook },
 
             // Admin Routes
-            { path: "all-users", Component: AllUsers },
-            { path: "manage-books", Component: ManageBooks },
+            { path: "all-users", element: <AdminRoute><AllUsers /></AdminRoute> },
+            { path: "manage-books", element: <AdminRoute><ManageBooks /></AdminRoute> },
         ]
     }
 ]);
