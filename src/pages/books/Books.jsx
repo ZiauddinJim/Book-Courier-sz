@@ -18,7 +18,7 @@ const Books = () => {
         queryKey: ["books", search, selectedCategory, price],
         queryFn: async () => {
             try {
-                console.log({ search, selectedCategory, price });
+                // console.log({ search, selectedCategory, price });
                 const res = await axios.get("/books", { params: { search, category: selectedCategory, maxPrice: price, status: "published" } });
                 // console.log("Books response:", res.data);
                 return res.data;
