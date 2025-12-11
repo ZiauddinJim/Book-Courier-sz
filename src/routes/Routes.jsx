@@ -10,6 +10,7 @@ import ForgetPassword from "../pages/auth/ForgetPassword";
 import MyOrders from "../pages/dashboard/user/MyOrders";
 import MyProfile from "../pages/dashboard/shared/MyProfile";
 import Invoices from "../pages/dashboard/user/Invoices";
+import MyWishlist from "../pages/dashboard/user/MyWishlist";
 import AddBook from "../pages/dashboard/librarian/AddBook";
 import MyBooks from "../pages/dashboard/librarian/MyBooks";
 import LibrarianOrders from "../pages/dashboard/librarian/LibrarianOrders";
@@ -42,6 +43,7 @@ export const router = createBrowserRouter([
             { path: "orders", Component: MyOrders },
             { path: "profile", Component: MyProfile },
             { path: "invoices", Component: Invoices },
+            { path: "wishlist", Component: MyWishlist },
 
             // Librarian Routes
             { path: "add-book", Component: AddBook },

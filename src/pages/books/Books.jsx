@@ -5,7 +5,7 @@ import { Link } from "react-router";
 import BookCard from "../home/BookCard";
 import { categories } from "../../assets/data/categories";
 import { useQuery } from '@tanstack/react-query';
-import Loading from "../../components/Loading";
+import Spinner from "../../components/Spinner";
 import useAxios from "../../hooks/useAxios";
 
 const Books = () => {
@@ -14,7 +14,7 @@ const Books = () => {
     const [price, setPrice] = useState(10000);
     const axios = useAxios()
 
-    const { data: books = [], } = useQuery({
+    const { data: books = [], isLoading, } = useQuery({
         queryKey: ["books", search, selectedCategory, price],
         queryFn: async () => {
             try {
@@ -29,9 +29,7 @@ const Books = () => {
         }
     });
 
-    // // Add loading and error states to your JSX
-    // if (isLoading) return <Loading />;
-    // if (error) return <div>Error: {error.message}</div>;
+    if (isLoading) return <Spinner />;
 
     console.log(books);
 

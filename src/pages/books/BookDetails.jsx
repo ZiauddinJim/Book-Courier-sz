@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import useAxios from '../../hooks/useAxios';
 import { FaHeart, FaStar, FaShoppingCart, FaArrowLeft } from 'react-icons/fa';
 import { TbCurrencyTaka } from 'react-icons/tb';
@@ -69,7 +69,7 @@ const BookDetails = () => {
                 toast.error(res.data.message);
             }
         } catch (error) {
-            toast.error("Failed to add to wishlist");
+            toast.error(`Failed to add to wishlist. Error message: ${error}`);
         }
     };
 
@@ -102,7 +102,7 @@ const BookDetails = () => {
     if (isLoading) return <Loading />;
     if (isError || !book) return <div className="text-center py-20 text-error">Failed to load book details.</div>;
 
-    const { title, image, author, category, description, price, quantity, status, librarianName, librarianEmail } = book;
+    const { title, image, author, category, description, price, quantity, librarianName, librarianEmail } = book;
 
     return (
         <div className="container mx-auto px-4 py-10">

@@ -17,6 +17,7 @@ import ThemeControl from '../ThemeControl';
 import useRole from '../../hooks/useRole';
 import useAuth from '../../hooks/useAuth';
 import toast from 'react-hot-toast';
+import { FaHeart } from 'react-icons/fa';
 
 const Sidebar = () => {
     const { role } = useRole();
@@ -39,6 +40,7 @@ const Sidebar = () => {
                 { to: '/dashboard/profile', label: 'My Profile', icon: <Users size={20} /> },
                 { to: '/dashboard/orders', label: 'My Orders', icon: <ShoppingCart size={20} /> },
                 { to: '/dashboard/invoices', label: 'Invoices', icon: <FileText size={20} /> },
+                { to: '/dashboard/wishlist', label: 'My Wishlist', icon: <FaHeart size={20} /> },
             ]
         },
         {
