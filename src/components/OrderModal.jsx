@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import useAuth from '../hooks/useAuth';
-import useAxios from '../hooks/useAxios';
 import toast from 'react-hot-toast';
 import useAxiosSecure from '../hooks/useAxiosSecure';
 

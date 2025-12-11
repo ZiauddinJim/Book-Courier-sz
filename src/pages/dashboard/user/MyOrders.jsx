@@ -73,7 +73,8 @@ const MyOrders = () => {
                             <th>No</th>
                             <th>Book Details</th>
                             <th>Order Date</th>
-                            <th>Status</th>
+                            <th>Payment Status</th>
+                            <th>Order Status</th>
                             <th>Price</th>
                             <th>Actions</th>
                         </tr>
@@ -97,6 +98,7 @@ const MyOrders = () => {
                                         </div>
                                     </td>
                                     <td>{new Date(order.orderDate).toLocaleDateString()}</td>
+                                    <td><span className={`badge ${order.paymentStatus === 'paid' ? 'badge-primary' : 'badge-info'} `}>{order.paymentStatus}</span></td>
                                     <td>
                                         <span className={`badge ${order.status === 'paid' ? 'badge-success' :
                                             order.status === 'pending' ? 'badge-warning' : 'badge-error'
@@ -106,25 +108,30 @@ const MyOrders = () => {
                                     </td>
                                     <td><TbCurrencyTaka className='inline' />{order.price}</td>
                                     <td className="flex gap-2 items-center h-full my-auto">
-                                        {order.status === 'pending' && (
+
+                                        {/* Show buttons ONLY when unpaid + pending */}
+                                        {order.paymentStatus === "unpaid" && order.status === "pending" && (
                                             <>
+                                                {/* Pay Button */}
                                                 <button
-                                                    className="btn btn-xs btn-success text-white"
-                                                    title="Pay Now"
+                                                    className="btn btn-xs btn-success text-white flex items-center gap-1"
                                                     onClick={() => handlePayment(order)}
                                                 >
-                                                    <CreditCard size={14} /> Pay
+                                                    <CreditCard size={14} /> Pay Now
                                                 </button>
+
+                                                {/* Cancel Button */}
                                                 <button
                                                     className="btn btn-xs btn-error text-white"
-                                                    title="Cancel Order"
                                                     onClick={() => handleCancel(order._id)}
                                                 >
                                                     Cancel
                                                 </button>
                                             </>
                                         )}
+
                                     </td>
+
                                 </tr>
                             ))
                         ) : (
