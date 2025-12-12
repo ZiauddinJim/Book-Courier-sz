@@ -4,7 +4,7 @@ import 'react-loading-skeleton/dist/skeleton.css';
 
 const Spinner = () => {
     return (
-        <div className="w-full">
+        <div className="w-full container mx-auto">
             <SkeletonTheme baseColor="#e0e0e0" highlightColor="#f5f5f5">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {[1, 2, 3].map((item) => (

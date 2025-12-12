@@ -5,6 +5,7 @@ import useAuth from '../../../hooks/useAuth';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
 import Loading from '../../../components/Loading';
+import Swal from 'sweetalert2';
 
 const LibrarianOrders = () => {
     const { user } = useAuth();
@@ -33,19 +34,34 @@ const LibrarianOrders = () => {
         }
     };
 
-    const handleCancelOrder = async (id) => {
-        if (confirm("Are you sure you want to cancel this order?")) {
-            try {
-                const res = await axiosSecure.patch(`/handleCancelOrder/${id}`, { status: 'cancelled' });
-                if (res.data.modifiedCount > 0) {
-                    toast.success("Order Cancelled");
-                    refetch();
+    const handleCancelOrder = (id) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes, cancel it!"
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const res = await axiosSecure.patch(`/handleCancelOrder/${id}`, { status: 'cancelled' });
+                    if (res.data.modifiedCount > 0) {
+                        toast.success("Order Cancelled");
+                        refetch();
+                        Swal.fire({
+                            title: "Cancelled!",
+                            text: "The order has been cancelled.",
+                            icon: "success"
+                        });
+                    }
+                } catch (error) {
+                    console.error(error);
+                    toast.error("Failed to cancel order");
                 }
-            } catch (error) {
-                console.error(error);
-                toast.error("Failed to cancel order");
             }
-        }
+        });
     }
 
     const getStatusIcon = (status) => {

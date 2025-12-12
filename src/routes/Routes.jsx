@@ -35,7 +35,7 @@ export const router = createBrowserRouter([
             // Main Routes
             { path: "/", Component: Home, },
             { path: "/books", Component: Books, },
-            { path: "/books/:id", Component: BookDetails, },
+            { path: "/books/:id", element: <PrivateRoute><BookDetails /></PrivateRoute> },
 
             // Auth Routes
             { path: "/login", Component: Login, },
