@@ -6,6 +6,7 @@ import { BiMenu } from 'react-icons/bi';
 import useAuth from '../../hooks/useAuth';
 import toast from 'react-hot-toast';
 import ThemeControl from '../../components/ThemeControl';
+import { User, LogOut, LayoutDashboard } from 'lucide-react';
 
 
 
@@ -54,23 +55,44 @@ const Navbar = () => {
                 <div className="navbar-end">
                     <ThemeControl />
                     {
+
                         !user
                             ? <Link to={'/login'} className='btn btn-xs btn-outline hover:btn-primary'>Login</Link>
                             : <div className="dropdown dropdown-end">
-                                <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                                <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar ring ring-primary ring-offset-base-100 ring-offset-2">
                                     <div className="w-10 rounded-full">
                                         <img
                                             alt="Profile picture"
-                                            src={user.photoURL}
-                                            referrerPolicy='no-referrer' />
+                                            src={user.photoURL || assets.user_placeholder}
+                                            referrerPolicy='no-referrer'
+                                            onError={(e) => { e.target.onerror = null; e.target.src = "https://i.ibb.co/HDtwq8C/user.png" }}
+                                        />
                                     </div>
                                 </div>
                                 <ul
                                     tabIndex="-1"
-                                    className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-                                    <li><Link to={'/dashboard/profile'}>Profile</Link></li>
-                                    <li><Link to={'/dashboard'}>Dashboard</Link></li>
-                                    <li onClick={handleLogOut}><Link>Logout</Link></li>
+                                    className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-64 p-2 shadow-lg border border-base-200">
+                                    <li className="menu-title px-4 py-2 bg-base-200/50 rounded-t-lg mb-2">
+                                        <div className="flex flex-col">
+                                            <span className="font-bold text-base-content">{user.displayName}</span>
+                                            <span className="text-xs text-base-content/70 font-normal truncate">{user.email}</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <Link to={'/dashboard/profile'} className="py-3 font-medium">
+                                            <User size={18} /> Profile
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link to={'/dashboard'} className="py-3 font-medium">
+                                            <LayoutDashboard size={18} /> Dashboard
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <button onClick={handleLogOut} className="py-3 font-medium text-error hover:bg-error/10">
+                                            <LogOut size={18} /> Logout
+                                        </button>
+                                    </li>
                                 </ul>
                             </div>
                     }

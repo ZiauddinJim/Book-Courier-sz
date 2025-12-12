@@ -24,10 +24,13 @@ import Dashboard from "../pages/dashboard/Dashboard";
 import PaymentSuccess from "../pages/dashboard/user/payment/PaymentSuccess";
 import PaymentCancel from "../pages/dashboard/user/payment/PaymentCancel";
 
+import ErrorPage from "../pages/shared/ErrorPage";
+
 export const router = createBrowserRouter([
     {
         path: "/",
         Component: MainLayout,
+        errorElement: <ErrorPage />,
         children: [
             // Main Routes
             { path: "/", Component: Home, },

@@ -41,15 +41,15 @@ const Dashboard = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                         <div>
                             <p className="font-semibold text-lg">Name:</p>
-                            <p className="text-gray-600">{user?.displayName}</p>
+                            <p className="text-gray-600 dark:text-gray-400">{user?.displayName}</p>
                         </div>
                         <div>
                             <p className="font-semibold text-lg">Email:</p>
-                            <p className="text-gray-600">{user?.email}</p>
+                            <p className="text-gray-600 dark:text-gray-400">{user?.email}</p>
                         </div>
                         <div>
                             <p className="font-semibold text-lg">Role:</p>
-                            <p className="text-gray-600 capitalize">{role}</p>
+                            <p className="text-gray-600 dark:text-gray-400 capitalize">{role}</p>
                         </div>
                     </div>
                 </div>
