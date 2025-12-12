@@ -5,8 +5,8 @@ import { Link } from "react-router";
 import BookCard from "../home/BookCard";
 import { categories } from "../../assets/data/categories";
 import { useQuery } from '@tanstack/react-query';
-import Spinner from "../../components/Spinner";
 import useAxios from "../../hooks/useAxios";
+import Spinner from "../../components/Spinner";
 
 const Books = () => {
     const [search, setSearch] = useState("");
@@ -28,8 +28,6 @@ const Books = () => {
             }
         }
     });
-
-
 
     // console.log(books);
     return (
@@ -117,7 +115,6 @@ const Books = () => {
 
                     {/* Books Grid */}
                     <div className="w-full">
-
                         {isLoading ? (
                             <Spinner />
                         ) : (
@@ -134,12 +131,10 @@ const Books = () => {
                             </>
                         )}
                     </div>
-
                 </div>
             </div>
         </div>
     );
-
 };
 
 export default Books;

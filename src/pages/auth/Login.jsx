@@ -176,7 +176,7 @@ const Login = () => {
                         {/* Register Link */}
                         <p className="text-center mt-6 text-sm">
                             New to our website?{" "}
-                            <Link className="font-semibold hover:underline text-primary dark:text-secondary" to="/register">
+                            <Link className="font-semibold hover:underline text-primary dark:text-secondary" to="/register" state={location?.state}>
                                 Register
                             </Link>
                         </p>

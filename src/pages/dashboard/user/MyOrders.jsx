@@ -3,7 +3,6 @@ import { Ban, CheckCircle, CreditCard, Package, Truck } from 'lucide-react';
 import toast from 'react-hot-toast';
 import useAuth from '../../../hooks/useAuth';
 import { useQuery } from '@tanstack/react-query';
-import Spinner from '../../../components/Spinner';
 import { TbCurrencyTaka } from 'react-icons/tb';
 import Swal from 'sweetalert2';
 import Loading from '../../../components/Loading';

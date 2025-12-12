@@ -15,7 +15,7 @@ const Register = () => {
     const [show, setShow] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
-    const { registerUserFun, updateProfileFun, googleSignInFun, setLoading } = useContext(AuthContext);
+    const { registerUserFun, updateProfileFun, googleSignInFun } = useContext(AuthContext);
     const axiosSecure = useAxiosSecure();
 
     const {
@@ -172,7 +172,7 @@ const Register = () => {
                         </div>
 
                         <p className="text-center mt-6 text-sm">
-                            Already have an account? <Link to="/login" className="font-semibold hover:underline text-primary dark:text-secondary">Login</Link>
+                            Already have an account? <Link to="/login" state={location?.state} className="font-semibold hover:underline text-primary dark:text-secondary">Login</Link>
                         </p>
                     </form>
                 </div>

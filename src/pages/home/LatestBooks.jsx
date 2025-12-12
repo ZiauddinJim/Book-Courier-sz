@@ -6,7 +6,6 @@ import "swiper/css";
 import BookCard from "./BookCard";
 import useAxios from "../../hooks/useAxios";
 import { useQuery } from "@tanstack/react-query";
-import Loading from "../../components/Loading";
 import Spinner from "../../components/Spinner";
 
 const LatestBooks = () => {
