@@ -1,5 +1,5 @@
 import React from 'react';
-import { CreditCard } from 'lucide-react';
+import { Ban, CheckCircle, CreditCard, Package, Truck } from 'lucide-react';
 import toast from 'react-hot-toast';
 import useAuth from '../../../hooks/useAuth';
 import { useQuery } from '@tanstack/react-query';
@@ -60,6 +60,24 @@ const MyOrders = () => {
         const response = await axiosSecure.post('/payment-checkout-session', order)
         window.location.assign(response.data.url);
     }
+
+    const getStatusIcon = (status) => {
+        switch (status) {
+            case 'shipped': return <Truck size={14} />;
+            case 'delivered': return <CheckCircle size={14} />;
+            case 'cancelled': return <Ban size={14} />;
+            default: return <Package size={14} />;
+        }
+    };
+    const getStatusColor = (status) => {
+        switch (status) {
+            case 'delivered': return 'badge-success';
+            case 'shipped': return 'badge-info';
+            case 'cancelled': return 'badge-error';
+            default: return 'badge-warning';
+        }
+    };
+
     if (isLoading) return <Loading />;
 
     return (
@@ -100,11 +118,10 @@ const MyOrders = () => {
                                     <td>{new Date(order.orderDate).toLocaleDateString()}</td>
                                     <td><span className={`badge ${order.paymentStatus === 'paid' ? 'badge-primary' : 'badge-info'} `}>{order.paymentStatus}</span></td>
                                     <td>
-                                        <span className={`badge ${order.status === 'paid' ? 'badge-success' :
-                                            order.status === 'pending' ? 'badge-warning' : 'badge-error'
-                                            } badge-sm capitalize text-white`}>
+                                        <div className={`badge text-white gap-1 capitalize ${getStatusColor(order.status)}`}>
+                                            {getStatusIcon(order.status)}
                                             {order.status}
-                                        </span>
+                                        </div>
                                     </td>
                                     <td><TbCurrencyTaka className='inline' />{order.price}</td>
                                     <td className="flex gap-2 items-center h-full my-auto">

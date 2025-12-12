@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import useAuth from '../hooks/useAuth';
 import toast from 'react-hot-toast';
 import useAxiosSecure from '../hooks/useAxiosSecure';
+import { useNavigate } from 'react-router';
 
 const OrderModal = ({ book, isOpen, onClose }) => {
     const { user } = useAuth();
@@ -9,6 +10,7 @@ const OrderModal = ({ book, isOpen, onClose }) => {
     const [address, setAddress] = useState('');
     const [loading, setLoading] = useState(false);
     const axiosSecure = useAxiosSecure()
+    const navigate = useNavigate()
 
     if (!isOpen) return null;
 
@@ -26,6 +28,8 @@ const OrderModal = ({ book, isOpen, onClose }) => {
             price: book.price,
             userEmail: user?.email,
             userName: user?.displayName,
+            librarianName: book.librarianName,
+            librarianEmail: book.librarianEmail,
             phone,
             address,
             status: "pending",
@@ -40,6 +44,8 @@ const OrderModal = ({ book, isOpen, onClose }) => {
             if (res.data.insertedId) {
                 toast.success('Order placed successfully! Please pay to confirm.');
                 onClose();
+                e.target.reset();
+                navigate('/dashboard/orders')
             }
         } catch (error) {
             console.error(error);
