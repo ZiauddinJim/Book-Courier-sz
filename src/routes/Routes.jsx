@@ -20,6 +20,7 @@ import PrivateRoute from "./PrivateRoute";
 import EditBook from "../pages/dashboard/librarian/EditBook";
 import AdminRoute from "./AdminRoute";
 import LibrarianRoute from "./LibrarianRoute";
+import Dashboard from "../pages/dashboard/Dashboard";
 import PaymentSuccess from "../pages/dashboard/user/payment/PaymentSuccess";
 import PaymentCancel from "../pages/dashboard/user/payment/PaymentCancel";
 
@@ -43,6 +44,7 @@ export const router = createBrowserRouter([
         path: "/dashboard",
         element: <PrivateRoute> <DashboardLayout /></PrivateRoute>,
         children: [
+            { index: true, Component: Dashboard },
             // User Routes
             { path: "orders", Component: MyOrders },
             { path: "payment-success", Component: PaymentSuccess },

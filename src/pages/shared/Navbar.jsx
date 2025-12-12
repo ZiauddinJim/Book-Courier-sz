@@ -16,7 +16,7 @@ const Navbar = () => {
         <>
             <li><MyLink to={'/'}>Home</MyLink></li>
             <li><MyLink to={'/books'}>Books</MyLink></li>
-            <li><MyLink to={'/dashboard/profile'}>Dashboard</MyLink></li>
+            <li><MyLink to={'/dashboard'}>Dashboard</MyLink></li>
         </>
 
     const handleLogOut = () => {
