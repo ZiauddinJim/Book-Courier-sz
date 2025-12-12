@@ -8,7 +8,7 @@ const MyLink = ({ children, to, className }) => {
             className={({ isActive }) =>
                 isActive
                     ? 'btn text-white dark:text-black border-none btn-primary dark:btn-secondary hover:brightness-110 active:scale-95'
-                    : `${className} btn btn-ghost hover:btn-primary`}
+                    : `${className} btn btn-ghost hover:btn-primary dark:hover:btn-secondary`}
         >
             {children}
         </NavLink>
