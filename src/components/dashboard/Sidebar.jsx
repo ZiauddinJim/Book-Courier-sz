@@ -1,18 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink, Link } from 'react-router';
-import {
-    Book,
-    ShoppingCart,
-    FileText,
-    Users,
-    PlusCircle,
-    Package,
-    PanelLeftClose,
-    PanelLeftOpen,
-    LogOut,
-    User,
-    LayoutDashboard
-} from 'lucide-react';
+import { Book, ShoppingCart, FileText, Users, PlusCircle, Package, PanelLeftClose, PanelLeftOpen, LogOut, User, LayoutDashboard } from 'lucide-react';
 import { assets } from '../../assets/assets';
 import ThemeControl from '../ThemeControl';
 import useRole from '../../hooks/useRole';

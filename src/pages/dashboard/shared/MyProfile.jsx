@@ -6,11 +6,12 @@ import Swal from 'sweetalert2';
 
 const MyProfile = () => {
 
-    const { user, updateProfileFun, setUser } = useAuth()
+    const { user, updateProfileFun, setUser, setLoading } = useAuth()
     const { role } = useRole()
     const axiosSecure = useAxiosSecure()
 
     const handleSubmit = async (e) => {
+        setLoading(true)
         e.preventDefault();
         const form = e.target;
 
@@ -33,7 +34,6 @@ const MyProfile = () => {
                     displayName: updatedUser.displayName,
                     photoURL: updatedUser.photoURL,
                 }))
-
                 Swal.fire({
                     title: "Success!",
                     text: "Profile updated successfully",
@@ -48,6 +48,8 @@ const MyProfile = () => {
                 text: "Something went wrong!",
                 icon: "error",
             });
+        } finally {
+            setLoading(false)
         }
     };
     // console.log({ user, role });

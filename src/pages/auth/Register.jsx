@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router';
 import toast from "react-hot-toast";
@@ -6,16 +6,16 @@ import { assets } from '../../assets/assets';
 import { IoIosCloseCircle } from 'react-icons/io';
 import { LuEye, LuEyeClosed } from 'react-icons/lu';
 import { FcGoogle } from 'react-icons/fc';
-import AuthContext from '../../contexts/AuthContext';
 import axios from 'axios';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import { firebaseErrorMessage } from '../../utils/firebaseErrorMessage';
+import useAuth from '../../hooks/useAuth';
 
 const Register = () => {
     const [show, setShow] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
-    const { registerUserFun, updateProfileFun, googleSignInFun } = useContext(AuthContext);
+    const { registerUserFun, updateProfileFun, googleSignInFun } = useAuth();
     const axiosSecure = useAxiosSecure();
 
     const {

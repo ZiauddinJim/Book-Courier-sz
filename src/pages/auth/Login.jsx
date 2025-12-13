@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { LuEye, LuEyeClosed } from 'react-icons/lu';
-import { Link, useNavigate } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 import { assets } from '../../assets/assets';
 import { IoIosCloseCircle } from 'react-icons/io';
 import { useForm } from 'react-hook-form';
@@ -13,6 +13,7 @@ import useAuth from '../../hooks/useAuth';
 const Login = () => {
     const [show, setShow] = useState(false)
     const navigate = useNavigate()
+    const location = useLocation()
     const axiosSecure = useAxiosSecure()
     const { signInFun, googleSignInFun, setEmail } = useAuth()
     const { register, handleSubmit, formState: { errors }, getValues } = useForm();
