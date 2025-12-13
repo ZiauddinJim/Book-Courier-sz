@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink, Link } from 'react-router';
 import { Book, ShoppingCart, FileText, Users, PlusCircle, Package, PanelLeftClose, PanelLeftOpen, LogOut, User, LayoutDashboard } from 'lucide-react';
 import { assets } from '../../assets/assets';
@@ -12,6 +12,19 @@ const Sidebar = () => {
     const { role } = useRole();
     const [isCollapsed, setIsCollapsed] = useState(true);
     const { signOutFun } = useAuth()
+
+    useEffect(() => {
+        if (!role) return;
+
+        const roleTitleMap = {
+            user: 'User Dashboard',
+            librarian: 'Librarian Dashboard',
+            admin: 'Admin Dashboard',
+        };
+
+        document.title = `Book Courier | ${roleTitleMap[role] || 'Dashboard'}`;
+    }, [role]);
+
 
     const handleLogOut = () => {
         signOutFun()
