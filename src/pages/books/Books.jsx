@@ -5,14 +5,14 @@ import { Link } from "react-router";
 import BookCard from "../home/BookCard";
 import { categories } from "../../assets/data/categories";
 import { useQuery } from '@tanstack/react-query';
-import useAxios from "../../hooks/useAxios";
 import Spinner from "../../components/Spinner";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const Books = () => {
     const [search, setSearch] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("");
     const [price, setPrice] = useState(10000);
-    const axios = useAxios()
+    const axios = useAxiosSecure()
 
     const { data: books = [], isLoading, } = useQuery({
         queryKey: ["books", search, selectedCategory, price],

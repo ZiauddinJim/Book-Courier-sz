@@ -58,7 +58,7 @@ const Navbar = () => {
 
                         !user
                             ? <Link to={'/login'} className='btn btn-xs btn-outline hover:btn-primary'>Login</Link>
-                            : <div className="dropdown dropdown-end">
+                            : <div className="dropdown dropdown-end mr-2">
                                 <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar ring ring-primary ring-offset-base-100 ring-offset-2">
                                     <div className="w-10 rounded-full">
                                         <img

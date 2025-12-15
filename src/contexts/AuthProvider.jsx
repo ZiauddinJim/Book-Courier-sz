@@ -24,10 +24,10 @@ const AuthProvider = ({ children }) => {
         return createUserWithEmailAndPassword(auth, email, password)
     }
 
-    const updateProfileFun = (updatedUser) => {
+    const updateProfileFun = (user, updatedUser) => {
         setLoading(true);
         // console.log(updatedUser);
-        return updateProfile(auth.currentUser, updatedUser)
+        return updateProfile(user, updatedUser)
     }
     const signInFun = (email, password) => {
         setLoading(true);

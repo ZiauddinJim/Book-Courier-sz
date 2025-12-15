@@ -21,19 +21,14 @@ const MyProfile = () => {
         }
 
         try {
-            await updateProfileFun(updatedUser);
-
-            // Update in DB
-            const { data } = await axiosSecure.patch(`/users/${user?.email}/update`, updatedUser);
-
-            if (data.modifiedCount) {
-
-                // Instantly reflect UI update
+            const res = await axiosSecure.patch(`/users/${user?.email}/update`, updatedUser);
+            if (res.data.matchedCount > 0) {
                 setUser((prev) => ({
                     ...prev,
                     displayName: updatedUser.displayName,
                     photoURL: updatedUser.photoURL,
-                }))
+                }));
+                await updateProfileFun(user, updatedUser);
                 Swal.fire({
                     title: "Success!",
                     text: "Profile updated successfully",

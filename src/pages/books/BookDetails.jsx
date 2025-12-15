@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import useAxios from '../../hooks/useAxios';
 import { FaHeart, FaStar, FaShoppingCart, FaArrowLeft } from 'react-icons/fa';
 import { TbCurrencyTaka } from 'react-icons/tb';
 import OrderModal from '../../components/OrderModal';
 import Loading from '../../components/Loading';
 import useAuth from '../../hooks/useAuth';
 import toast from 'react-hot-toast';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
 
 const BookDetails = () => {
     const { id } = useParams();
     const { user } = useAuth();
-    const axios = useAxios();
+    const axiosSecure = useAxiosSecure();
     const queryClient = useQueryClient();
     const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
 
@@ -24,7 +24,7 @@ const BookDetails = () => {
     const { data: book, isLoading, isError } = useQuery({
         queryKey: ['book', id],
         queryFn: async () => {
-            const res = await axios.get(`/books/${id}`);
+            const res = await axiosSecure.get(`/books/${id}`);
             return res.data;
         }
     });
@@ -34,7 +34,7 @@ const BookDetails = () => {
         queryKey: ['reviews', id],
         queryFn: async () => {
             try {
-                const res = await axios.get(`/reviews/${id}`);
+                const res = await axiosSecure.get(`/reviews/${id}`);
                 return res.data;
             } catch (error) {
                 console.error("Failed to fetch reviews", error);
@@ -62,7 +62,7 @@ const BookDetails = () => {
         };
 
         try {
-            const res = await axios.post('/wishlist', wishlistData);
+            const res = await axiosSecure.post('/wishlist', wishlistData);
             if (res.data.insertedId) {
                 toast.success("Added to wishlist!");
             } else if (res.data.message) {
@@ -87,7 +87,7 @@ const BookDetails = () => {
         };
 
         try {
-            const res = await axios.post('/reviews', reviewData);
+            const res = await axiosSecure.post('/reviews', reviewData);
             if (res.data.insertedId) {
                 toast.success("Review submitted!");
                 setComment("");

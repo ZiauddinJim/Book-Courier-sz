@@ -4,12 +4,12 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/css";
 import BookCard from "./BookCard";
-import useAxios from "../../hooks/useAxios";
 import { useQuery } from "@tanstack/react-query";
 import Spinner from "../../components/Spinner";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const LatestBooks = () => {
-    const axios = useAxios();
+    const axios = useAxiosSecure();
 
     const { data: books = [], isLoading } = useQuery({
         queryKey: ['latest-books'],

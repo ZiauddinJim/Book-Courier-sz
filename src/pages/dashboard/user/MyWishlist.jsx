@@ -1,16 +1,16 @@
 import React from 'react';
 import useAuth from '../../../hooks/useAuth';
-import useAxios from '../../../hooks/useAxios';
 import { useQuery } from '@tanstack/react-query';
 import Loading from '../../../components/Loading';
 import { Link } from 'react-router';
 import { FaTrash, FaShoppingCart } from 'react-icons/fa';
 import toast from 'react-hot-toast';
 import { TbCurrencyTaka } from 'react-icons/tb';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
 
 const MyWishlist = () => {
     const { user } = useAuth();
-    const axios = useAxios();
+    const axios = useAxiosSecure();
 
     const { data: wishlist = [], isLoading, refetch } = useQuery({
         queryKey: ['wishlist', user?.email],
