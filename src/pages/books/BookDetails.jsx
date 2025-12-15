@@ -180,7 +180,7 @@ const BookDetails = () => {
                     <h3 className="text-xl font-semibold mb-4">Leave a Review</h3>
                     <form onSubmit={handleReviewSubmit} className="space-y-4">
                         <div className="form-control w-full max-w-xs">
-                            <label className="label"><span className="label-text">Rating</span></label>
+                            <label className="label"><span className="label-text mr-2">Rating</span></label>
                             <div className="rating">
                                 {[1, 2, 3, 4, 5].map((star) => (
                                     <input
@@ -196,7 +196,7 @@ const BookDetails = () => {
                         </div>
 
                         <div className="form-control">
-                            <label className="label"><span className="label-text">Your Review</span></label>
+                            <label className="label"><span className="label-text mr-2">Your Review</span></label>
                             <textarea
                                 className="textarea textarea-bordered h-24"
                                 placeholder="Share your thoughts..."
