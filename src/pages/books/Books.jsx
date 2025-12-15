@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
-import { TbCurrencyTaka } from "react-icons/tb";
 import { Link } from "react-router";
 import BookCard from "../home/BookCard";
 import { categories } from "../../assets/data/categories";
@@ -86,7 +85,7 @@ const Books = () => {
 
                         {/* Price */}
                         <div className="mb-6">
-                            <label className="font-medium"> Price (BDT): Up to <TbCurrencyTaka />{price}</label>
+                            <label className="font-medium"> Price (BDT): Up to ৳{price}</label>
                             <input type="range" min="500" max="5000" value={price} onChange={(e) => setPrice(Number(e.target.value))}
                                 className="range range-primary my-3" />
                         </div>
