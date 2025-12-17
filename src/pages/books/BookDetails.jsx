@@ -72,6 +72,21 @@ const BookDetails = () => {
             toast.error(`Failed to add to wishlist. Error message: ${error}`);
         }
     };
+    
+    // Check if user has ordered this book
+    const { data: orderStatus } = useQuery({
+        queryKey: ['orderStatus', user?.email, id],
+        enabled: !!user?.email,
+        queryFn: async () => {
+            try {
+                const res = await axiosSecure.get(`/orders/check/${user.email}/${id}`);
+                return res.data;
+            } catch (error) {
+                console.error("Failed to check order status", error);
+                return { hasOrdered: false };
+            }
+        }
+    });
 
     const handleReviewSubmit = async (e) => {
         e.preventDefault();
@@ -171,74 +186,81 @@ const BookDetails = () => {
                 </div>
             </div>
 
-            {/* Reviews Section */}
-            <div className="mt-16">
-                <h2 className="text-3xl font-bold mb-6">Reviews ({reviews.length})</h2>
+            {/* Reviews Section */ }
+<div className="mt-16">
+    <h2 className="text-3xl font-bold mb-6">Reviews ({reviews.length})</h2>
 
-                {/* Review Form */}
-                <div className="bg-base-200 p-6 rounded-xl mb-10">
-                    <h3 className="text-xl font-semibold mb-4">Leave a Review</h3>
-                    <form onSubmit={handleReviewSubmit} className="space-y-4">
-                        <div className="form-control w-full max-w-xs">
-                            <label className="label"><span className="label-text mr-2">Rating</span></label>
-                            <div className="rating">
-                                {[1, 2, 3, 4, 5].map((star) => (
-                                    <input
-                                        key={star}
-                                        type="radio"
-                                        name="rating-2"
-                                        className="mask mask-star-2 bg-orange-400"
-                                        checked={rating === star}
-                                        onChange={() => setRating(star)}
-                                    />
-                                ))}
-                            </div>
-                        </div>
 
-                        <div className="form-control">
-                            <label className="label"><span className="label-text mr-2">Your Review</span></label>
-                            <textarea
-                                className="textarea textarea-bordered h-24"
-                                placeholder="Share your thoughts..."
-                                value={comment}
-                                onChange={(e) => setComment(e.target.value)}
-                                required
-                            ></textarea>
-                        </div>
+    {/* Review Form */}
+    <div className="bg-base-200 p-6 rounded-xl mb-10">
+        <h3 className="text-xl font-semibold mb-4">Leave a Review</h3>
 
-                        <button
-                            type="submit"
-                            className="btn btn-primary"
-                            disabled={!user}
-                        >
-                            {user ? "Submit Review" : "Login to Review"}
-                        </button>
-                    </form>
+
+        {!orderStatus?.hasOrdered && (
+            <form onSubmit={handleReviewSubmit} className="space-y-4">
+                <div className="form-control w-full max-w-xs">
+                    <label className="label"><span className="label-text mr-2">Rating</span></label>
+                    <div className="rating">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                            <input
+                                key={star}
+                                type="radio"
+                                name="rating-2"
+                                className="mask mask-star-2 bg-orange-400"
+                                checked={rating === star}
+                                onChange={() => setRating(star)}
+                            />
+                        ))}
+                    </div>
                 </div>
 
-                {/* Reviews List */}
-                <div className="space-y-6">
-                    {reviews.length > 0 ? reviews.map((review, idx) => (
-                        <div key={idx} className="bg-base-100 p-6 rounded-xl shadow-sm border border-base-200">
-                            <div className="flex items-center gap-2 mb-2">
-                                <div className="avatar placeholder">
-                                    <div className="bg-neutral text-neutral-content rounded-full w-8">
-                                        <span className="text-xs">{review.userName?.[0]}</span>
-                                    </div>
-                                </div>
-                                <span className="font-bold">{review.userName}</span>
-                                <span className="text-xs text-gray-500">• {new Date(review.date).toLocaleDateString()}</span>
-                            </div>
-                            <div className="flex text-orange-400 text-sm mb-2">
-                                {[...Array(review.rating)].map((_, i) => <FaStar key={i} />)}
-                            </div>
-                            <p className="text-gray-700">{review.comment}</p>
-                        </div>
-                    )) : (
-                        <p className="text-gray-500 italic">No reviews yet. Be the first to review!</p>
-                    )}
+
+                <div className="form-control">
+                    <label className="label"><span className="label-text mr-2">Your Review</span></label>
+                    <textarea
+                        className="textarea textarea-bordered h-24"
+                        placeholder="Share your thoughts..."
+                        value={comment}
+                        onChange={(e) => setComment(e.target.value)}
+                        required
+                    ></textarea>
                 </div>
+
+
+                <button
+                    type="submit"
+                    className="btn btn-primary"
+                >
+                    Submit Review
+                </button>
+            </form>
+        )}
+    </div>
+
+
+    {/* Reviews List */}
+    <div className="space-y-6">
+        {reviews.length > 0 ? reviews.map((review, idx) => (
+            <div key={idx} className="bg-base-100 p-6 rounded-xl shadow-sm border border-base-200">
+                <div className="flex items-center gap-2 mb-2">
+                    <div className="avatar placeholder">
+                        <div className="bg-neutral text-neutral-content rounded-full w-8">
+                            <span className="text-xs">{review.userName?.[0]}</span>
+                        </div>
+                    </div>
+                    <span className="font-bold">{review.userName}</span>
+                    <span className="text-xs text-gray-500">• {new Date(review.date).toLocaleDateString()}</span>
+                </div>
+                <div className="flex text-orange-400 text-sm mb-2">
+                    {[...Array(review.rating)].map((_, i) => <FaStar key={i} />)}
+                </div>
+                <p className="text-gray-700">{review.comment}</p>
             </div>
+        )) : (
+            <p className="text-gray-500 italic">No reviews yet. Be the first to review!</p>
+        )}
+    </div>
+</div>
 
             {/* Modal */}
             <OrderModal
