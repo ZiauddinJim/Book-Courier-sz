@@ -45,6 +45,24 @@ const Login = () => {
         navigate("/forgetPassword");
     }
 
+    const handleDemoUser = () => {
+        const toastId = toast.loading("Logging in...");
+
+        try {
+            const result = await signInFun("demo@user.com", "Demo123");
+            const user = result.user;
+
+            toast.success("Login successful!", { id: toastId });
+
+            // Redirect
+            navigate(location?.state || "/");
+
+        } catch (err) {
+            const message = firebaseErrorMessage(err.code);
+            toast.error(message, { id: toastId });
+            console.error(err);
+        }
+    }
 
     const handleGoogleSubmit = async () => {
         const toastId = toast.loading("Logging in...");
@@ -162,6 +180,11 @@ const Login = () => {
                             {/* Submit */}
                             <button type="submit" className="btn w-full border-0 shadow-lg btn-primary dark:btn-secondary">
                                 Login
+                            </button>
+
+                            {/* Demo user  */}
+                            <button type="button" onClick={handleDemoUser} className="btn w-full border-0 shadow-lg btn-primary dark:btn-secondary">
+                                Demo User
                             </button>
 
                             {/* OR */}
