@@ -49,7 +49,8 @@ const Login = () => {
         const toastId = toast.loading("Logging in...");
 
         try {
-            const result = await signInFun("demo@user.com", "Demo123");
+            const result = await signInFun("con@text.com", "Con123");
+            //const result = await signInFun("demo@user.com", "Demo123");
             const user = result.user;
 
             toast.success("Login successful!", { id: toastId });
