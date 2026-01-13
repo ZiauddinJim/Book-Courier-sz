@@ -45,7 +45,7 @@ const Login = () => {
         navigate("/forgetPassword");
     }
 
-    const handleDemoUser = () => {
+    const handleDemoUser = async() => {
         const toastId = toast.loading("Logging in...");
 
         try {
